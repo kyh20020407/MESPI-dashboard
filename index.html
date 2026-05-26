@@ -1,1 +1,52 @@
-
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MESPI - 실시간 환전 시세 대시보드</title>
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; background-color: #f4f7f6; padding: 20px; text-align: center; }
+        h1 { color: #333; }
+        table { margin: 0 auto; border-collapse: collapse; width: 80%; max-width: 800px; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        th, td { padding: 12px; border: 1px solid #ddd; }
+        th { background-color: #2ea44f; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <h1>📊 메이플플래닛 실시간 시세 대시보드</h1>
+    <p>파이썬 MESPI 프로그램과 연동되어 자동으로 업데이트됩니다.</p>
+    <table id="priceTable">
+        <thead>
+            <tr>
+                <th>아이템명</th>
+                <th>환전 비율 (100만 메소당)</th>
+                <th>업데이트 시간</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <tr><td colspan="3">데이터를 불러오는 중입니다...</td></tr>
+        </tbody>
+    </table>
+    <script>
+        fetch('result.json')
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('tableBody');
+                tbody.innerHTML = '';
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.item_name}</td>
+                        <td><b>${Math.round(row.exchange_rate_per_1m).toLocaleString()} 원</b></td>
+                        <td>${row.timestamp}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(error => {
+                document.getElementById('tableBody').innerHTML = '<tr><td colspan="3" style="color:red;">아직 업로드된 시세 데이터가 없습니다.</td></tr>';
+            });
+    </script>
+</body>
+</html>
