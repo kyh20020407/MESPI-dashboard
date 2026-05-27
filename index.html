@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MESPI - 메이플플래닛 통합 커뮤니티</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <a href="index.html" class="logo">MESPI</a>
+            <ul class="menu">
+                <li><a href="#">자리</a></li>
+                <li><a href="#">파티</a></li>
+                <li><a href="#">팔아요</a></li>
+                <li><a href="#">사요</a></li>
+                <li><a href="#" id="openCubeBtn" style="color: #deff9a; font-weight: 700;"><i class="fa-solid fa-cube"></i> 큐브 시뮬레이터</a></li>
+            </ul>
+        </div>
+        <div class="header-right">
+            <div class="search-box">
+                <input type="text" placeholder="이곳에 검색어를 입력">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <button class="login-btn"><i class="fa-brands fa-discord"></i> 로그인</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="first-screen">
+            <div class="top-section">
+                <div class="price-area animate-load-1">
+                    <h1>MESPI</h1>
+                    <p id="dynamic-price">계산중...</p>
+                </div>
+                <div class="meso-calc-container glass-panel reveal-element">
+        <div class="calc-header">
+            <i class="fa-solid fa-calculator"></i> 실시간 환산 계산기
+        </div>
+        <div class="calc-body">
+            <div class="calc-input-group">
+                <input type="text" id="calcTopInput" placeholder="0">
+                <span id="calcTopLabel" class="calc-label">메소</span>
+            </div>
+            
+            <div class="calc-swap">
+                <button id="btnSwapUnit" title="단위 전환 (메소 ↔ 원화)">
+                    <i class="fa-solid fa-arrows-up-down"></i>
+                </button>
+            </div>
+            
+            <div class="calc-input-group">
+                <input type="text" id="calcBottomInput" placeholder="0">
+                <span id="calcBottomLabel" class="calc-label">원 (KRW)</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <div class="bottom-section animate-load-3">
+                <div class="chart-header">
+                    <h2 id="chart-title">데이터를 불러오는 중입니다...</h2>
+                    <select id="timeRangeSelect" class="time-range-select" style="display: none;">
+                        <option value="all">전체 기간 (All)</option>
+                        <option value="1d">최근 1일 (1D)</option>
+                        <option value="3d">최근 3일 (3D)</option>
+                        <option value="5d">최근 5일 (5D)</option>
+                        <option value="2w">최근 2주 (2W)</option>
+                        <option value="1m">최근 1달 (1M)</option>
+                    </select>
+                </div>
+                <div id="custom-legend" class="custom-legend"></div>
+                <div class="chart-container">
+                    <canvas id="priceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-content-wrapper">
+            
+            <div class="shortcut-buttons reveal-element">
+                <a href="https://mapleplanet.co.kr/board/update" target="_blank" class="glass-btn">
+                    <i class="fa-solid fa-clipboard-check"></i> 패치노트 보러가기
+                </a>
+                <a href="https://mapleplanet.co.kr/board/event" target="_blank" class="glass-btn">
+                    <i class="fa-solid fa-gift"></i> 이벤트 보러가기
+                </a>
+            </div>
+
+            <div class="info-section reveal-element">
+                <h2>MESPI 시세 산출 방식 안내</h2>
+                <div class="info-list">
+                    <div class="info-item"><i class="fa-solid fa-user"></i><div class="info-text"><h3>1. 실시간 데이터 수집</h3><p>일 3회이상 플래닛 경매장을 방문하여 수동으로 각 아이템들의 시세를 조회하고 데이터를 직접수집합니다.</p></div></div>
+                    <div class="info-item"><i class="fa-solid fa-filter"></i><div class="info-text"><h3>2. 이상치(허위 매물) 필터링</h3><p>비정상적으로 높거나 낮은 가격, 중복 도배 글 등 시장 시세를 교란하는 허위 데이터는 제외됩니다.</p></div></div>
+                    <div class="info-item"><i class="fa-solid fa-calculator"></i><div class="info-text"><h3>3. 평균가 산출</h3><p>필터링을 거친 유효한 최신 거래 데이터들을 취합하여, 100만 메소(1m) 당 평균 원화 가치를 계산합니다.</p></div></div>
+                    <div class="info-item"><i class="fa-solid fa-cloud-arrow-up"></i><div class="info-text"><h3>4. 실시간 차트 반영</h3><p>정제된 데이터는 즉시 서버로 전송되며, MESPI 대시보드의 메인 차트에 동기화됩니다.</p></div></div>
+                </div>
+            </div>
+            
+        </div>
+<div id="cubeModal" class="cube-modal-overlay" style="display: none;">
+    <div class="cube-modal-content">
+        <div class="cube-header">
+            <h2><i class="fa-solid fa-cube"></i> 큐브 시뮬레이터</h2>
+            <button id="closeCubeModal" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="cube-body">
+            <div class="cube-left-panel">
+                <div class="cube-selectors">
+                    <button id="btnSusCube" class="cube-select-btn">
+                        <img src="data/sus.png" alt="수상한 큐브">
+                        <span>수상한 큐브</span>
+                    </button>
+                    <button id="btnMiracleCube" class="cube-select-btn">
+                        <img src="data/miracle.png" alt="미라클 큐브">
+                        <span>미라클 큐브</span>
+                    </button>
+                </div>
+                
+                <div class="cube-display-area">
+                    <img id="activeCubeImg" src="data/miracle.png" alt="선택된 큐브" style="display: none;">
+                    <div class="cube-result-box">
+                        <div id="resultLine1" class="result-line">잠재능력이 부여되지 않았습니다.</div>
+                        <div id="resultLine2" class="result-line">-</div>
+                        <div id="resultLine3" class="result-line">-</div>
+                    </div>
+                </div>
+
+                <div class="cost-display-box">
+                    <div class="cost-item">
+                        <span class="cost-label">사용한 메소</span>
+                        <span id="totalMesoUsed" class="cost-value meso">0 메소</span>
+                    </div>
+                    <div class="cost-item">
+                        <span class="cost-label">실시간 원화(KRW) 환산</span>
+                        <span id="totalKrwUsed" class="cost-value krw">0 원</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cube-right-panel">
+                <h3>장비 설정</h3>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label>장착 부위</label>
+                        <select id="equipPart">
+                            <option value="0">전체 공통 (무기/방어구/장신구)</option>
+                            <option value="11">무기 (보공/방무 등장)</option>
+                            <option value="12">보조무기</option>
+                            <option value="13">엠블렘</option>
+                            <option value="20">모자</option>
+                            <option value="21">상의</option>
+                            <option value="22">하의</option>
+                            <option value="51">장갑 (쓸샾/크뎀/쓸윈부 등장)</option>
+                            <option value="52">신발</option>
+                            <option value="53">망토</option>
+                            <option value="40">장신구</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>장비 레벨</label>
+                        <input type="number" id="equipLevel" value="120" min="0" max="250">
+                    </div>
+                    <div class="setting-item">
+                        <label>시작 등급</label>
+                        <select id="startGrade">
+                            <option value="1">레어</option>
+                            <option value="2" selected>에픽</option>
+                            <option value="3">유니크</option>
+                            <option value="4">레전드리</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h3>목표 옵션 설정 (자동 돌리기)</h3>
+                <div class="target-options-container">
+                    <div class="target-line" style="position: relative;">
+                        <label>1번째 줄</label>
+                        <input type="text" id="targetOp1" placeholder="예: INT, 보스 몬스터 공격 시 데미지">
+                        <input type="number" id="targetVal1" placeholder="수치(%)">
+                        <ul id="autoList1" class="autocomplete-list" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: #2b2b2b; z-index: 100; list-style: none; padding: 5px; margin: 0; border: 1px solid #555; max-height: 150px; overflow-y: auto;"></ul>
+                    </div>
+                    <div class="target-line" style="position: relative;">
+                        <label>2번째 줄</label>
+                        <input type="text" id="targetOp2" placeholder="검색어 입력">
+                        <input type="number" id="targetVal2" placeholder="수치(%)">
+                        <ul id="autoList2" class="autocomplete-list" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: #2b2b2b; z-index: 100; list-style: none; padding: 5px; margin: 0; border: 1px solid #555; max-height: 150px; overflow-y: auto;"></ul>
+                    </div>
+                    <div class="target-line" style="position: relative;">
+                        <label>3번째 줄</label>
+                        <input type="text" id="targetOp3" placeholder="검색어 입력">
+                        <input type="number" id="targetVal3" placeholder="수치(%)">
+                        <ul id="autoList3" class="autocomplete-list" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: #2b2b2b; z-index: 100; list-style: none; padding: 5px; margin: 0; border: 1px solid #555; max-height: 150px; overflow-y: auto;"></ul>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="btnRollOnce" class="action-btn normal">1회 돌리기</button>
+                    <button id="btnAutoRoll" class="action-btn auto">목표 달성까지 자동</button>
+                    <button id="btnReset" class="action-btn reset" style="background-color: #555; color: #fff;">큐브 초기화</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </main>
+
+    <footer class="reveal-element">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">이용약관</a>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">운영정책</a>
+                <a href="#">광고 및 제휴 문의</a>
+            </div>
+            <div class="footer-info">
+                <p>메이플플래닛 통합 커뮤니티 및 시세 정보 대시보드 - MESPI</p>
+                <p>본 사이트는 메이플플래닛과 공식적으로 연관되어 있지 않은 유저 커뮤니티 서비스입니다.</p>
+                <p>Contact : <a href="mailto:mespi.xyz@gmail.com" class="email-link">mespi.xyz@gmail.com</a></p>
+                <p style="margin-top: 10px;">&copy; 2026 MESPI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+        <div id="mespiAlertOverlay" class="custom-alert-overlay" style="display: none;">
+            <div id="mespiCommonAlertModal">
+                <div class="alert-text">현재 준비중입니다.</div>
+                <button class="alert-confirm-btn" id="alertConfirmBtn">확인</button>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js"></script>
+    
+    <!-- 큐브 시뮬레이터 스크립트 연결 (js 폴더) -->
+    <script src="js/formatted-cube-data.js"></script>
+    <script src="js/cube.js"></script>
+</body>
+</html>
