@@ -12,53 +12,61 @@
     <style>
         :root {
             --bg-dark: #222222;
-            --bg-nav: #2a2a2a;
             --text-light: #ffffff;
             --text-gray: #a0a0a0;
             --box-gray: #d9d9d9;
-            --border-color: #444444;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
         
-        /* 상단바 고정으로 인해 body 상단에 여백(70px) 추가 */
-        body { background-color: var(--bg-dark); color: var(--text-light); min-height: 100vh; display: flex; flex-direction: column; padding-top: 70px; }
+        body { background-color: var(--bg-dark); color: var(--text-light); min-height: 100vh; display: flex; flex-direction: column; padding-top: 90px; /* 유리 상단바를 위해 여백 살짝 증가 */ }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
 
-        /* 1. 상단 네비게이션 바 (고정) */
+        /* 1. 상단 네비게이션 바 (글래스모피즘 적용) */
         header {
-            position: fixed; /* 화면 상단에 고정 */
+            position: fixed; 
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 9999; /* 다른 요소들보다 항상 위에 보이도록 설정 */
+            z-index: 9999; 
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: var(--bg-nav);
             padding: 0 30px;
             height: 70px;
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            
+            /* 유리 질감 핵심 효과 */
+            background: rgba(34, 34, 34, 0.6); /* 반투명한 다크 배경 */
+            backdrop-filter: blur(12px); /* 배경 블러 처리 (사파리 외 브라우저) */
+            -webkit-backdrop-filter: blur(12px); /* 사파리 지원 */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* 유리의 반사광 느낌을 주는 얇은 테두리 */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2); /* 은은한 그림자 */
         }
 
         .header-left { display: flex; align-items: center; gap: 40px; }
-        .logo { font-size: 32px; font-weight: 800; letter-spacing: 1px; }
-        .menu { display: flex; gap: 20px; border-bottom: 1px solid #555; padding-bottom: 5px; margin-top: 10px; }
+        .logo { font-size: 32px; font-weight: 800; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .menu { display: flex; gap: 20px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px; margin-top: 10px; }
         .menu li a { font-size: 15px; color: var(--text-gray); transition: 0.2s; }
-        .menu li a:hover { color: var(--text-light); }
+        .menu li a:hover { color: var(--text-light); text-shadow: 0 0 8px rgba(255,255,255,0.3); }
 
         .header-right { display: flex; align-items: center; gap: 20px; }
         .search-box { position: relative; display: flex; align-items: center; }
-        .search-box input {
-            background-color: #333333; border: 1px solid #444; border-radius: 20px;
-            color: white; padding: 10px 40px 10px 20px; font-size: 14px; width: 250px; outline: none;
-        }
-        .search-box input::placeholder { color: #888; }
-        .search-box i { position: absolute; right: 15px; color: #888; cursor: pointer; }
         
-        .login-btn { background: none; border: none; color: white; font-size: 15px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 500; }
+        /* 검색창도 유리 느낌에 맞게 반투명 수정 */
+        .search-box input {
+            background-color: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 20px;
+            color: white; padding: 10px 40px 10px 20px; font-size: 14px; width: 250px; outline: none;
+            transition: 0.3s;
+        }
+        .search-box input:focus { background-color: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.3); }
+        .search-box input::placeholder { color: rgba(255,255,255,0.4); }
+        .search-box i { position: absolute; right: 15px; color: rgba(255,255,255,0.4); cursor: pointer; }
+        
+        .login-btn { background: none; border: none; color: white; font-size: 15px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 500; transition: 0.2s; }
+        .login-btn:hover { text-shadow: 0 0 10px rgba(255,255,255,0.5); }
         .login-btn i { font-size: 20px; }
 
         /* 2. 메인 컨텐츠 영역 */
@@ -67,7 +75,6 @@
         .top-section { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; min-height: 350px; }
 
         .price-area { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        /* MESPI 글자 크기 대폭 확대 (100px -> 140px) */
         .price-area h1 { font-size: 140px; font-weight: 800; letter-spacing: 5px; line-height: 1; margin-bottom: 10px; }
         .price-area p { font-size: 55px; font-weight: 400; color: var(--text-light); }
 
@@ -85,8 +92,8 @@
             .price-area p { font-size: 40px; }
             .ad-area { height: 200px; font-size: 40px; }
             .header-left { flex-direction: column; align-items: flex-start; gap: 10px; }
-            header { position: relative; height: auto; padding: 15px; flex-direction: column; gap: 15px; align-items: flex-start; }
-            body { padding-top: 0; }
+            header { padding: 15px; flex-direction: column; gap: 15px; align-items: flex-start; height: auto; }
+            body { padding-top: 150px; } /* 모바일에서 상단바가 커지는 만큼 여백 확보 */
             .search-box input { width: 100%; }
             .bottom-section h2 { font-size: 30px; }
         }
@@ -137,37 +144,22 @@
             .then(data => {
                 if (!data || data.length === 0) return;
 
-                // 1. 최신 데이터(새로 생성된 데이터) 평균값 구하기 로직
-                // 가장 마지막 배열 요소의 시간(timestamp)을 최신 시간으로 잡음
                 const latestTimestamp = data[data.length - 1].timestamp;
-                
-                // 해당 최신 시간과 일치하는 데이터들만 필터링 (가장 최근 업데이트된 그룹)
                 const latestDataGroup = data.filter(item => item.timestamp === latestTimestamp);
                 
-                // 필터링된 데이터들의 exchange_rate_per_1m 총합 계산
                 let sum = 0;
                 latestDataGroup.forEach(item => {
                     sum += item.exchange_rate_per_1m;
                 });
                 
-                // 평균 내기
                 const averagePrice = sum / latestDataGroup.length;
-                
-                // 화면에 출력 (쉼표 찍기 적용)
                 document.getElementById('dynamic-price').innerText = `${Math.round(averagePrice).toLocaleString()}/1m`;
 
-                // 2. 아이템별 차트 그리기 로직 (Chart.js 다중 데이터셋)
-                // 중복을 제거하여 X축에 들어갈 모든 시간(timestamp) 추출
                 const timestamps = [...new Set(data.map(item => item.timestamp))];
-                // 중복을 제거하여 꺾은선으로 그려질 모든 아이템 이름(item_name) 추출
                 const itemNames = [...new Set(data.map(item => item.item_name))];
-
-                // 어두운 테마에 어울리는 구별하기 쉬운 그래프 선 색상 목록
                 const lineColors = ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#4bc0c0', '#9966ff'];
 
-                // 아이템 이름 개수만큼 데이터셋(선)을 생성
                 const datasets = itemNames.map((itemName, index) => {
-                    // 해당 아이템의 각 시간별 가격을 매핑 (데이터가 없으면 null 처리하여 선이 끊어지게 함)
                     const itemPrices = timestamps.map(ts => {
                         const record = data.find(d => d.item_name === itemName && d.timestamp === ts);
                         return record ? record.exchange_rate_per_1m : null;
@@ -180,26 +172,24 @@
                         backgroundColor: lineColors[index % lineColors.length],
                         borderWidth: 3,
                         pointRadius: 4,
-                        tension: 0.3, // 부드러운 곡선
-                        spanGaps: true // 중간에 빈 데이터가 있어도 선을 끊지 않고 이어줌
+                        tension: 0.3, 
+                        spanGaps: true
                     };
                 });
 
-                // 기존 로딩 텍스트 숨기기
                 document.getElementById('chart-title').style.display = 'none';
 
-                // 차트 렌더링
                 const ctx = document.getElementById('priceChart').getContext('2d');
                 new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: timestamps,
-                        datasets: datasets // 위에서 만든 다중 데이터셋 삽입
+                        datasets: datasets 
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        interaction: { mode: 'index', intersect: false }, // 마우스 올렸을 때 툴팁 표시 방식
+                        interaction: { mode: 'index', intersect: false }, 
                         plugins: {
                             legend: {
                                 labels: { color: '#000', font: { family: 'Pretendard', size: 14 } }
