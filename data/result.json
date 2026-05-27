@@ -1,0 +1,47 @@
+[
+    {
+        "item_name": "미라클 큐브",
+        "exchange_rate_per_1m": 1101.1586670947668,
+        "timestamp": "2026-05-27 19:50:17"
+    },
+    {
+        "item_name": "보따리상인 묘묘",
+        "exchange_rate_per_1m": 684.5370287434159,
+        "timestamp": "2026-05-27 19:50:53"
+    },
+    {
+        "item_name": "운명의 수레바퀴",
+        "exchange_rate_per_1m": 784.1260818979615,
+        "timestamp": "2026-05-27 19:51:21"
+    },
+    {
+        "item_name": "선택 슬롯 4칸 확장권",
+        "exchange_rate_per_1m": 733.8587762171048,
+        "timestamp": "2026-05-27 19:51:36"
+    },
+    {
+        "item_name": "아이템확성기",
+        "exchange_rate_per_1m": 789.3917678224927,
+        "timestamp": "2026-05-27 19:51:55"
+    },
+    {
+        "item_name": "고성능 확성기",
+        "exchange_rate_per_1m": 765.3706657332546,
+        "timestamp": "2026-05-27 19:52:27"
+    },
+    {
+        "item_name": "AP,SP 초기화주문서",
+        "exchange_rate_per_1m": 710.1000847003509,
+        "timestamp": "2026-05-27 19:53:24"
+    },
+    {
+        "item_name": "호신부적",
+        "exchange_rate_per_1m": 625.353771562198,
+        "timestamp": "2026-05-27 19:53:49"
+    },
+    {
+        "item_name": "카르마가위",
+        "exchange_rate_per_1m": 710.5508155815949,
+        "timestamp": "2026-05-27 19:54:07"
+    }
+]
