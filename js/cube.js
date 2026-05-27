@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalMeso = 0;          // 누적 소모 메소
     let isAutoRolling = false;  // 자동 돌리기 상태
 
-    // 옵션 등급별 스타일 지정 (1: 레어, 2: 에픽, 3: 유니크, 4: 레전드리)
+    // 옵션 등급별 스타일 지정 (1: 레어, 2: 에픽, 3: 유니크)
+    // [비활성화 반영] 지침에 따라 레전더리 등급(4) 스타일은 완전히 비활성화 및 제거되었습니다.
     const gradeStyles = {
         1: { name: "[레어 등급]", className: "cube-opt-rare" },
         2: { name: "[에픽 등급]", className: "cube-opt-epic" },
-        3: { name: "[유니크 등급]", className: "cube-opt-unique" },
-        4: { name: "[레전드리 등급]", className: "cube-opt-legendary" }
+        3: { name: "[유니크 등급]", className: "cube-opt-unique" }
     };
 
     // DOM 엘리먼트 가져오기
@@ -117,18 +117,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. 인게임 고증 랜덤 굴리기 로직 (오류 수정본)
     // ==========================================
     function rollCubeLogic() {
-        // UI에서 선택한 값을 숫자로 바로 받아옵니다.
-        const currentGrade = parseInt(document.getElementById('startGrade').value) || 2;
+        // UI에서 선택한 값을 숫자로 받아옵니다.
+        let currentGrade = parseInt(document.getElementById('startGrade').value) || 2;
         const selectedPart = parseInt(document.getElementById('equipPart').value) || 0;
         const currentReqLevel = parseInt(document.getElementById('equipLevel').value) || 120;
 
-        // ★ 버그 수정: 영단어 매핑을 거치지 않고, HTML의 숫자 value를 다이렉트로 옵션풀과 매칭합니다.
+        // [등급업 확률 로직 반영] 수상한 큐브 / 미라클 큐브 공통 적용
+        // 레레어(1) -> 에픽(2) : 6.0% 확률 / 에픽(2) -> 유니크(3) : 1.8% 확률
+        const upgradeChance = Math.random() * 100;
+        if (currentGrade === 1) {
+            if (upgradeChance < 6.0) {
+                currentGrade = 2;
+                document.getElementById('startGrade').value = 2; // UI 드롭다운 연동
+            }
+        } else if (currentGrade === 2) {
+            if (upgradeChance < 1.8) {
+                currentGrade = 3;
+                document.getElementById('startGrade').value = 3; // UI 드롭다운 연동
+            }
+        }
+
+        // 버그 수정 및 레전더리 차단: d.grade < 4 조건을 명시하여 레전더리 옵션이 추출되지 않도록 제어합니다.
         let pool = window.SUSPICIOUS_DATA.filter(d => 
-            d.grade === currentGrade && (d.optionType === selectedPart || d.optionType === 0)
+            d.grade === currentGrade && d.grade < 4 && (d.optionType === selectedPart || d.optionType === 0)
         );
 
         if(pool.length === 0) {
-            pool = window.SUSPICIOUS_DATA.filter(d => d.grade === currentGrade);
+            pool = window.SUSPICIOUS_DATA.filter(d => d.grade === currentGrade && d.grade < 4);
         }
         
         let resultOptions = [];
@@ -303,7 +318,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     let optionMap = []; 
     if(window.SUSPICIOUS_DATA) {
-        const filteredData = window.SUSPICIOUS_DATA.filter(d => d.grade < 5);
+        // [비활성화 반영] 자동완성 검색 리스트 분리 필터에서도 grade < 4 조건을 적용하여 레전더리(4) 옵션이 노출되지 않도록 전면 차단합니다.
+        const filteredData = window.SUSPICIOUS_DATA.filter(d => d.grade < 4);
         filteredData.forEach(d => {
             const cleanText = simplifyOptionText(d.text);
             if(!optionMap.some(opt => opt.clean === cleanText)) {
