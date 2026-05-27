@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const miracleData = window.mespiData.filter(d => d.item_name === '미라클 큐브').sort((a, b) => a.timestamp.localeCompare(b.timestamp));
                 if (miracleData.length > 0) {
                     const latest = miracleData[miracleData.length - 1];
-                    miracleCubePrice = latest.price || Math.round((1200 / latest.exchange_rate_per_1m) * 1000000);
+                    miracleCubePrice = latest.price || Math.round((450 / latest.exchange_rate_per_1m) * 1000000);
                     alert(`미라클 큐브가 선택되었습니다. (최근 실시간 가격: ${miracleCubePrice.toLocaleString()} 메소)`);
                 }
             } else {
