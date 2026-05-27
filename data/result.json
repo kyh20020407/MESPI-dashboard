@@ -43,5 +43,60 @@
         "item_name": "카르마가위",
         "exchange_rate_per_1m": 710.5508155815949,
         "timestamp": "2026-05-27 19:54:07"
+    },
+    {
+        "item_name": "고성능 순간이동의 돌",
+        "exchange_rate_per_1m": 802.9938010379482,
+        "timestamp": "2026-05-27 20:14:03"
+    },
+    {
+        "item_name": "미라클 큐브",
+        "exchange_rate_per_1m": 859.6343403500854,
+        "timestamp": "2026-05-27 20:15:23"
+    },
+    {
+        "item_name": "보따리상인 묘묘",
+        "exchange_rate_per_1m": 656.9992702283988,
+        "timestamp": "2026-05-27 20:15:57"
+    },
+    {
+        "item_name": "운명의 수레바퀴",
+        "exchange_rate_per_1m": 790.3428880665908,
+        "timestamp": "2026-05-27 20:16:18"
+    },
+    {
+        "item_name": "선택 슬롯 4칸 확장권",
+        "exchange_rate_per_1m": 734.1308209098305,
+        "timestamp": "2026-05-27 20:16:37"
+    },
+    {
+        "item_name": "선택 슬롯 4칸 확장권",
+        "exchange_rate_per_1m": 3260.041336097794,
+        "timestamp": "2026-05-27 20:17:00"
+    },
+    {
+        "item_name": "고성능 확성기",
+        "exchange_rate_per_1m": 770.5020128814728,
+        "timestamp": "2026-05-27 20:17:23"
+    },
+    {
+        "item_name": "펫",
+        "exchange_rate_per_1m": 689.655172413793,
+        "timestamp": "2026-05-27 20:17:54"
+    },
+    {
+        "item_name": "AP,SP 초기화주문서",
+        "exchange_rate_per_1m": 734.2007946701298,
+        "timestamp": "2026-05-27 20:18:19"
+    },
+    {
+        "item_name": "호신부적",
+        "exchange_rate_per_1m": 661.5954545119868,
+        "timestamp": "2026-05-27 20:18:48"
+    },
+    {
+        "item_name": "카르마가위",
+        "exchange_rate_per_1m": 709.3204997393956,
+        "timestamp": "2026-05-27 20:19:11"
     }
 ]
