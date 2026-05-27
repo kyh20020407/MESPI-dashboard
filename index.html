@@ -78,10 +78,52 @@
         .bottom-section h2 { color: white; font-size: 45px; font-weight: 700; text-align: center; margin-bottom: 20px; z-index: 10; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .chart-container { width: 100%; height: 100%; max-height: 400px; }
 
-        /* 가로형 배너 광고 영역 */
-        .banner-ad {
-            background-color: var(--box-gray); color: black; display: flex; justify-content: center; align-items: center;
-            font-size: 40px; font-weight: 700; border-radius: 4px; height: 120px; width: 100%;
+        /* 새롭게 추가된 2개의 바로가기 버튼 영역 (가로배너 대체) */
+        .shortcut-buttons {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .glass-btn {
+            flex: 1; /* 가로 공간을 1:1로 나눠 가짐 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            height: 90px;
+            
+            /* 유리질감 베이스 */
+            background: var(--glass-bg); 
+            backdrop-filter: var(--glass-blur); 
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: var(--glass-border); 
+            box-shadow: var(--glass-shadow);
+            border-radius: 12px;
+            
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* 부드러운 텐션의 애니메이션 */
+        }
+
+        /* 호버 시 생동감 효과 */
+        .glass-btn:hover {
+            background: rgba(255, 255, 255, 0.08); /* 조금 더 밝아짐 */
+            border-color: rgba(255, 255, 255, 0.3); /* 테두리 선명해짐 */
+            transform: translateY(-5px); /* 위로 살짝 떠오름 */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.05); /* 깊은 그림자와 은은한 후광 */
+            color: #deff9a; /* 텍스트 포인트 컬러 */
+        }
+
+        .glass-btn i {
+            font-size: 26px;
+            transition: 0.3s ease;
+        }
+
+        /* 호버 시 아이콘 재미요소 */
+        .glass-btn:hover i {
+            transform: scale(1.15) rotate(5deg);
         }
 
         /* 시세 산출 안내 탭 (유리질감) */
@@ -122,7 +164,11 @@
             body { padding-top: 150px; }
             .search-box input { width: 100%; }
             .bottom-section h2 { font-size: 30px; }
-            .banner-ad { height: 80px; font-size: 24px; }
+            
+            /* 모바일에서 버튼을 세로로 배치 */
+            .shortcut-buttons { flex-direction: column; gap: 15px; }
+            .glass-btn { height: 70px; font-size: 18px; }
+            
             .info-section { padding: 25px; }
         }
     </style>
@@ -165,8 +211,13 @@
             </div>
         </div>
 
-        <div class="banner-ad">
-            가로 배너 광고
+        <div class="shortcut-buttons">
+            <a href="https://mapleplanet.co.kr/board/update" target="_blank" class="glass-btn">
+                <i class="fa-solid fa-clipboard-check"></i> 패치노트 보러가기
+            </a>
+            <a href="https://mapleplanet.co.kr/board/event" target="_blank" class="glass-btn">
+                <i class="fa-solid fa-gift"></i> 이벤트 보러가기
+            </a>
         </div>
 
         <div class="info-section">
@@ -176,7 +227,7 @@
                     <i class="fa-solid fa-robot"></i>
                     <div class="info-text">
                         <h3>1. 실시간 데이터 수집</h3>
-                        <p>경매장에 들어가서 직접 데이터를 수집하고있습니다.</p>
+                        <p>디스코드 및 주요 커뮤니티의 거래 데이터를 봇 시스템이 24시간 실시간으로 크롤링하여 수집합니다.</p>
                     </div>
                 </div>
                 <div class="info-item">
@@ -197,7 +248,7 @@
                     <i class="fa-solid fa-cloud-arrow-up"></i>
                     <div class="info-text">
                         <h3>4. 실시간 차트 반영</h3>
-                        <p>정제된 데이터는 즉시 서버로 전송되며, MESPI 대시보드의 메인 시세판과 아이템별 변동 추이 그래프에 자동으로 동기화됩니다.</p>
+                        <p>정제된 데이터는 즉시 깃허브(JSON)로 전송되며, MESPI 대시보드의 메인 시세판과 아이템별 변동 추이 그래프에 자동으로 동기화됩니다.</p>
                     </div>
                 </div>
             </div>
