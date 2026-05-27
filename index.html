@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* 기본 설정 및 다크모드 색상 변수 */
         :root {
             --bg-dark: #222222;
             --bg-nav: #2a2a2a;
@@ -21,12 +20,19 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text-light); min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* 상단바 고정으로 인해 body 상단에 여백(70px) 추가 */
+        body { background-color: var(--bg-dark); color: var(--text-light); min-height: 100vh; display: flex; flex-direction: column; padding-top: 70px; }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
 
-        /* 1. 상단 네비게이션 바 (Header) */
+        /* 1. 상단 네비게이션 바 (고정) */
         header {
+            position: fixed; /* 화면 상단에 고정 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999; /* 다른 요소들보다 항상 위에 보이도록 설정 */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -34,112 +40,53 @@
             padding: 0 30px;
             height: 70px;
             border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        /* 왼쪽: 로고 및 메뉴 */
         .header-left { display: flex; align-items: center; gap: 40px; }
         .logo { font-size: 32px; font-weight: 800; letter-spacing: 1px; }
         .menu { display: flex; gap: 20px; border-bottom: 1px solid #555; padding-bottom: 5px; margin-top: 10px; }
         .menu li a { font-size: 15px; color: var(--text-gray); transition: 0.2s; }
         .menu li a:hover { color: var(--text-light); }
 
-        /* 오른쪽: 검색창 및 로그인 */
         .header-right { display: flex; align-items: center; gap: 20px; }
-        .search-box {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
+        .search-box { position: relative; display: flex; align-items: center; }
         .search-box input {
-            background-color: #333333;
-            border: 1px solid #444;
-            border-radius: 20px;
-            color: white;
-            padding: 10px 40px 10px 20px;
-            font-size: 14px;
-            width: 250px;
-            outline: none;
+            background-color: #333333; border: 1px solid #444; border-radius: 20px;
+            color: white; padding: 10px 40px 10px 20px; font-size: 14px; width: 250px; outline: none;
         }
         .search-box input::placeholder { color: #888; }
         .search-box i { position: absolute; right: 15px; color: #888; cursor: pointer; }
         
-        .login-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            font-weight: 500;
-        }
+        .login-btn { background: none; border: none; color: white; font-size: 15px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 500; }
         .login-btn i { font-size: 20px; }
 
         /* 2. 메인 컨텐츠 영역 */
         main { padding: 30px; flex: 1; display: flex; flex-direction: column; gap: 30px; max-width: 1400px; margin: 0 auto; width: 100%; }
 
-        /* 상단 2분할 영역 (시세 & 광고) */
-        .top-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            height: 350px;
-        }
+        .top-section { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; min-height: 350px; }
 
-        /* 시세 텍스트 영역 */
-        .price-area {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-        .price-area h1 { font-size: 100px; font-weight: 700; letter-spacing: 5px; line-height: 1; margin-bottom: 10px; }
+        .price-area { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        /* MESPI 글자 크기 대폭 확대 (100px -> 140px) */
+        .price-area h1 { font-size: 140px; font-weight: 800; letter-spacing: 5px; line-height: 1; margin-bottom: 10px; }
         .price-area p { font-size: 55px; font-weight: 400; color: var(--text-light); }
 
-        /* 광고 영역 */
-        .ad-area {
-            background-color: var(--box-gray);
-            color: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 60px;
-            font-weight: 700;
-            border-radius: 4px;
-        }
+        .ad-area { background-color: var(--box-gray); color: black; display: flex; justify-content: center; align-items: center; font-size: 60px; font-weight: 700; border-radius: 4px; }
 
-        /* 하단 그래프 영역 */
-        .bottom-section {
-            background-color: var(--box-gray);
-            border-radius: 4px;
-            height: 450px;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
+        .bottom-section { background-color: var(--box-gray); border-radius: 4px; height: 500px; padding: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
         .bottom-section h2 { color: black; font-size: 45px; font-weight: 700; text-align: center; margin-bottom: 20px; z-index: 10; }
         
-        /* 캔버스(그래프) 컨테이너 */
-        .chart-container {
-            width: 100%;
-            height: 100%;
-            max-height: 350px;
-        }
+        .chart-container { width: 100%; height: 100%; max-height: 400px; }
 
-        /* 반응형 (모바일 화면) */
         @media (max-width: 900px) {
             .top-section { grid-template-columns: 1fr; height: auto; }
             .price-area { padding: 50px 0; }
-            .price-area h1 { font-size: 70px; }
+            .price-area h1 { font-size: 80px; }
             .price-area p { font-size: 40px; }
             .ad-area { height: 200px; font-size: 40px; }
             .header-left { flex-direction: column; align-items: flex-start; gap: 10px; }
-            header { height: auto; padding: 15px; flex-direction: column; gap: 15px; align-items: flex-start; }
+            header { position: relative; height: auto; padding: 15px; flex-direction: column; gap: 15px; align-items: flex-start; }
+            body { padding-top: 0; }
             .search-box input { width: 100%; }
             .bottom-section h2 { font-size: 30px; }
         }
@@ -163,9 +110,7 @@
                 <input type="text" placeholder="Hinted search text">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-            <button class="login-btn">
-                <i class="fa-brands fa-discord"></i> 로그인
-            </button>
+            <button class="login-btn"><i class="fa-brands fa-discord"></i> 로그인</button>
         </div>
     </header>
 
@@ -173,15 +118,13 @@
         <div class="top-section">
             <div class="price-area">
                 <h1>MESPI</h1>
-                <p id="dynamic-price">로딩중...</p>
+                <p id="dynamic-price">계산중...</p>
             </div>
-            <div class="ad-area">
-                광고
-            </div>
+            <div class="ad-area">광고</div>
         </div>
 
         <div class="bottom-section">
-            <h2 id="chart-title">아이템별 가격 변동시세추이 그래프 삽입</h2>
+            <h2 id="chart-title">데이터를 불러오는 중입니다...</h2>
             <div class="chart-container">
                 <canvas id="priceChart"></canvas>
             </div>
@@ -189,59 +132,90 @@
     </main>
 
     <script>
-        // 1. 기존에 구축해둔 파이썬 JSON 데이터 연동
         fetch('result.json')
             .then(response => response.json())
             .then(data => {
-                if (data && data.length > 0) {
-                    // 가장 최근 시세를 화면에 표시
-                    const latestData = data[data.length - 1];
-                    const priceFormatted = Math.round(latestData.exchange_rate_per_1m).toLocaleString();
-                    document.getElementById('dynamic-price').innerText = `${priceFormatted}/1m`;
-                }
+                if (!data || data.length === 0) return;
+
+                // 1. 최신 데이터(새로 생성된 데이터) 평균값 구하기 로직
+                // 가장 마지막 배열 요소의 시간(timestamp)을 최신 시간으로 잡음
+                const latestTimestamp = data[data.length - 1].timestamp;
+                
+                // 해당 최신 시간과 일치하는 데이터들만 필터링 (가장 최근 업데이트된 그룹)
+                const latestDataGroup = data.filter(item => item.timestamp === latestTimestamp);
+                
+                // 필터링된 데이터들의 exchange_rate_per_1m 총합 계산
+                let sum = 0;
+                latestDataGroup.forEach(item => {
+                    sum += item.exchange_rate_per_1m;
+                });
+                
+                // 평균 내기
+                const averagePrice = sum / latestDataGroup.length;
+                
+                // 화면에 출력 (쉼표 찍기 적용)
+                document.getElementById('dynamic-price').innerText = `${Math.round(averagePrice).toLocaleString()}/1m`;
+
+                // 2. 아이템별 차트 그리기 로직 (Chart.js 다중 데이터셋)
+                // 중복을 제거하여 X축에 들어갈 모든 시간(timestamp) 추출
+                const timestamps = [...new Set(data.map(item => item.timestamp))];
+                // 중복을 제거하여 꺾은선으로 그려질 모든 아이템 이름(item_name) 추출
+                const itemNames = [...new Set(data.map(item => item.item_name))];
+
+                // 어두운 테마에 어울리는 구별하기 쉬운 그래프 선 색상 목록
+                const lineColors = ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#4bc0c0', '#9966ff'];
+
+                // 아이템 이름 개수만큼 데이터셋(선)을 생성
+                const datasets = itemNames.map((itemName, index) => {
+                    // 해당 아이템의 각 시간별 가격을 매핑 (데이터가 없으면 null 처리하여 선이 끊어지게 함)
+                    const itemPrices = timestamps.map(ts => {
+                        const record = data.find(d => d.item_name === itemName && d.timestamp === ts);
+                        return record ? record.exchange_rate_per_1m : null;
+                    });
+
+                    return {
+                        label: itemName,
+                        data: itemPrices,
+                        borderColor: lineColors[index % lineColors.length],
+                        backgroundColor: lineColors[index % lineColors.length],
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        tension: 0.3, // 부드러운 곡선
+                        spanGaps: true // 중간에 빈 데이터가 있어도 선을 끊지 않고 이어줌
+                    };
+                });
+
+                // 기존 로딩 텍스트 숨기기
+                document.getElementById('chart-title').style.display = 'none';
+
+                // 차트 렌더링
+                const ctx = document.getElementById('priceChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: timestamps,
+                        datasets: datasets // 위에서 만든 다중 데이터셋 삽입
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { mode: 'index', intersect: false }, // 마우스 올렸을 때 툴팁 표시 방식
+                        plugins: {
+                            legend: {
+                                labels: { color: '#000', font: { family: 'Pretendard', size: 14 } }
+                            }
+                        },
+                        scales: {
+                            x: { ticks: { color: '#333' }, grid: { color: 'rgba(0,0,0,0.1)' } },
+                            y: { ticks: { color: '#333' }, grid: { color: 'rgba(0,0,0,0.1)' } }
+                        }
+                    }
+                });
             })
             .catch(error => {
-                document.getElementById('dynamic-price').innerText = "nnnn.nn/1m";
-                console.log("JSON 데이터를 찾을 수 없어 기본값으로 표시합니다.");
+                document.getElementById('dynamic-price').innerText = "Error";
+                console.error("데이터를 불러오는 데 실패했습니다.", error);
             });
-
-        // 2. Chart.js를 이용한 아름다운 선 그래프 구현
-        const ctx = document.getElementById('priceChart').getContext('2d');
-        
-        // 그래프 배경 글자 숨기기 (그래프가 렌더링되면 텍스트 제거)
-        document.getElementById('chart-title').style.display = 'none';
-
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                // X축 데이터 (임시 날짜)
-                labels: ['5월 21일', '5월 22일', '5월 23일', '5월 24일', '5월 25일', '5월 26일', '오늘'],
-                datasets: [{
-                    label: '100만 메소 당 원화 시세',
-                    data: [3100, 3150, 3080, 3200, 3250, 3180, 3300], // Y축 데이터 (임시 가격)
-                    borderColor: '#222222', // 선 색상 (다크)
-                    backgroundColor: 'rgba(34, 34, 34, 0.1)', // 선 아래 채우기 색상
-                    borderWidth: 3,
-                    pointBackgroundColor: '#222222',
-                    pointRadius: 5,
-                    fill: true,
-                    tension: 0.4 // 선을 부드러운 곡선으로 만듦
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        labels: { color: '#000', font: { family: 'Pretendard', size: 14 } }
-                    }
-                },
-                scales: {
-                    x: { ticks: { color: '#333', font: { family: 'Pretendard' } }, grid: { color: 'rgba(0,0,0,0.05)' } },
-                    y: { ticks: { color: '#333', font: { family: 'Pretendard' } }, grid: { color: 'rgba(0,0,0,0.05)' } }
-                }
-            }
-        });
     </script>
 </body>
 </html>
