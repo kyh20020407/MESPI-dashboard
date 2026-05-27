@@ -1,57 +1,57 @@
 [
     {
         "item_name": "고성능 순간이동의 돌",
-        "exchange_rate_per_1m": 786.2957111364084,
-        "timestamp": "2026-05-27 21:48:10"
+        "exchange_rate_per_1m": 785.0056542869619,
+        "timestamp": "2026-05-27 21:57:17"
     },
     {
         "item_name": "미라클 큐브",
-        "exchange_rate_per_1m": 885.045351411476,
-        "timestamp": "2026-05-27 21:49:43"
+        "exchange_rate_per_1m": 890.0815497985392,
+        "timestamp": "2026-05-27 21:59:06"
     },
     {
         "item_name": "보따리상인 묘묘",
-        "exchange_rate_per_1m": 628.6849754819966,
-        "timestamp": "2026-05-27 21:50:05"
+        "exchange_rate_per_1m": 628.9796071602786,
+        "timestamp": "2026-05-27 21:59:29"
     },
     {
         "item_name": "운명의 수레바퀴",
-        "exchange_rate_per_1m": 773.701041917403,
-        "timestamp": "2026-05-27 21:50:25"
+        "exchange_rate_per_1m": 779.1893249330952,
+        "timestamp": "2026-05-27 21:59:44"
     },
     {
         "item_name": "선택 슬롯 4칸 확장권",
-        "exchange_rate_per_1m": 738.7029959781188,
-        "timestamp": "2026-05-27 21:50:48"
+        "exchange_rate_per_1m": 739.195973064255,
+        "timestamp": "2026-05-27 22:00:01"
     },
     {
         "item_name": "아이템확성기",
-        "exchange_rate_per_1m": 777.9783565566286,
-        "timestamp": "2026-05-27 21:51:17"
+        "exchange_rate_per_1m": 782.6000899677063,
+        "timestamp": "2026-05-27 22:00:21"
     },
     {
         "item_name": "고성능 확성기",
-        "exchange_rate_per_1m": 753.3919211072089,
-        "timestamp": "2026-05-27 21:51:43"
+        "exchange_rate_per_1m": 759.7450155467207,
+        "timestamp": "2026-05-27 22:01:35"
     },
     {
         "item_name": "펫",
-        "exchange_rate_per_1m": 692.9873105251452,
-        "timestamp": "2026-05-27 21:52:18"
+        "exchange_rate_per_1m": 693.6247350677886,
+        "timestamp": "2026-05-27 22:02:05"
     },
     {
         "item_name": "AP,SP 초기화주문서",
-        "exchange_rate_per_1m": 754.1566321274067,
-        "timestamp": "2026-05-27 21:52:36"
+        "exchange_rate_per_1m": 715.1478575739288,
+        "timestamp": "2026-05-27 22:02:20"
     },
     {
         "item_name": "호신부적",
-        "exchange_rate_per_1m": 700.8724605853462,
-        "timestamp": "2026-05-27 21:53:16"
+        "exchange_rate_per_1m": 695.4039099865395,
+        "timestamp": "2026-05-27 22:02:49"
     },
     {
         "item_name": "카르마가위",
-        "exchange_rate_per_1m": 712.4133698218162,
-        "timestamp": "2026-05-27 21:53:47"
+        "exchange_rate_per_1m": 56.18984812905684,
+        "timestamp": "2026-05-27 22:03:04"
     }
 ]
