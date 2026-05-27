@@ -16,6 +16,12 @@
             --text-gray: #a0a0a0;
             --box-gray: #d9d9d9;
             --footer-bg: #1a1a1a;
+            
+            /* 글래스모피즘 공통 속성 정의 */
+            --glass-bg: rgba(34, 34, 34, 0.4); /* 조금 더 투명하게 설정 */
+            --glass-blur: blur(12px);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
@@ -36,9 +42,11 @@
             align-items: center;
             padding: 0 30px;
             height: 70px;
-            background: rgba(34, 34, 34, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            
+            /* 공통 변수 사용 */
+            background: rgba(34, 34, 34, 0.6); /* 상단바는 가독성을 위해 살짝 더 진하게 */
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         }
@@ -77,12 +85,46 @@
 
         .ad-area { background-color: var(--box-gray); color: black; display: flex; justify-content: center; align-items: center; font-size: 60px; font-weight: 700; border-radius: 4px; }
 
-        .bottom-section { background-color: var(--box-gray); border-radius: 4px; height: 500px; padding: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
-        .bottom-section h2 { color: black; font-size: 45px; font-weight: 700; text-align: center; margin-bottom: 20px; z-index: 10; }
+        /* [일관성 수정] 그래프 배경 유리질감으로 변경 */
+        .bottom-section { 
+            /* 기존 회색 배경 삭제 -> 유리 효과 적용 */
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            
+            border-radius: 8px; /* 유리 질감에 어울리게 라운드 살짝 증가 */
+            height: 500px; 
+            padding: 30px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative; 
+            transition: 0.3s; /* 호버 효과를 위한 애니메이션 */
+        }
+        
+        /* 호버 시 살짝 떠오르는 효과 (옵션) */
+        .bottom-section:hover {
+            background: rgba(255, 255, 255, 0.02); /* 배경색을 아주 조금 밝게 */
+            border-color: rgba(255, 255, 255, 0.15); /* 테두리를 조금 더 선명하게 */
+        }
+
+        /* 배경이 어두워졌으므로 제목 글씨색을 흰색으로 변경 */
+        .bottom-section h2 { 
+            color: white; /* 기존 black에서 변경 */
+            font-size: 45px; 
+            font-weight: 700; 
+            text-align: center; 
+            margin-bottom: 20px; 
+            z-index: 10; 
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
         
         .chart-container { width: 100%; height: 100%; max-height: 400px; }
 
-        /* 3. 하단 푸터 영역 (신뢰감 부여 및 연락처) */
+        /* 3. 하단 푸터 영역 */
         footer {
             background-color: var(--footer-bg);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -100,39 +142,13 @@
             gap: 20px;
         }
 
-        .footer-links {
-            display: flex;
-            gap: 25px;
-        }
+        .footer-links { display: flex; gap: 25px; }
+        .footer-links a { color: var(--text-gray); font-size: 14px; font-weight: 500; transition: 0.2s; }
+        .footer-links a:hover { color: var(--text-light); text-decoration: underline; }
 
-        .footer-links a {
-            color: var(--text-gray);
-            font-size: 14px;
-            font-weight: 500;
-            transition: 0.2s;
-        }
-
-        .footer-links a:hover {
-            color: var(--text-light);
-            text-decoration: underline;
-        }
-
-        .footer-info {
-            color: #777;
-            font-size: 13px;
-            line-height: 1.8;
-        }
-
-        .footer-info .email-link {
-            color: var(--text-gray);
-            font-weight: 600;
-            text-decoration: underline;
-            transition: 0.2s;
-        }
-
-        .footer-info .email-link:hover {
-            color: var(--text-light);
-        }
+        .footer-info { color: #777; font-size: 13px; line-height: 1.8; }
+        .footer-info .email-link { color: var(--text-gray); font-weight: 600; text-decoration: underline; transition: 0.2s; }
+        .footer-info .email-link:hover { color: var(--text-light); }
 
         @media (max-width: 900px) {
             .top-section { grid-template-columns: 1fr; height: auto; }
@@ -224,47 +240,51 @@
 
                 const timestamps = [...new Set(data.map(item => item.timestamp))];
                 const itemNames = [...new Set(data.map(item => item.item_name))];
+                
+                // [다중 그래프 로직 유지] 아이템별 꺾은선 데이터 생성
                 const lineColors = ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#4bc0c0', '#9966ff'];
-
                 const datasets = itemNames.map((itemName, index) => {
                     const itemPrices = timestamps.map(ts => {
                         const record = data.find(d => d.item_name === itemName && d.timestamp === ts);
                         return record ? record.exchange_rate_per_1m : null;
                     });
-
                     return {
                         label: itemName,
                         data: itemPrices,
                         borderColor: lineColors[index % lineColors.length],
                         backgroundColor: lineColors[index % lineColors.length],
-                        borderWidth: 3,
-                        pointRadius: 4,
-                        tension: 0.3, 
-                        spanGaps: true
+                        borderWidth: 3, pointRadius: 4, tension: 0.3, spanGaps: true
                     };
                 });
 
                 document.getElementById('chart-title').style.display = 'none';
 
+                // [일관성 수정] 그래프 내부 텍스트 및 그리드 색상을 다크 모드(흰색 계열)로 변경
                 const ctx = document.getElementById('priceChart').getContext('2d');
                 new Chart(ctx, {
                     type: 'line',
-                    data: {
-                        labels: timestamps,
-                        datasets: datasets 
-                    },
+                    data: { labels: timestamps, datasets: datasets },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
                         interaction: { mode: 'index', intersect: false }, 
                         plugins: {
                             legend: {
-                                labels: { color: '#000', font: { family: 'Pretendard', size: 14 } }
+                                // 범례 글씨색 변경
+                                labels: { color: '#fff', font: { family: 'Pretendard', size: 14 } }
                             }
                         },
                         scales: {
-                            x: { ticks: { color: '#333' }, grid: { color: 'rgba(0,0,0,0.1)' } },
-                            y: { ticks: { color: '#333' }, grid: { color: 'rgba(0,0,0,0.1)' } }
+                            // X축(시간) 색상 변경
+                            x: { 
+                                ticks: { color: '#aaa', font: { family: 'Pretendard' } }, // 축 글씨색
+                                grid: { color: 'rgba(255,255,255,0.05)' } // 그리드 선 색상 (아주 연하게 흰색)
+                            },
+                            // Y축(가격) 색상 변경
+                            y: { 
+                                ticks: { color: '#aaa', font: { family: 'Pretendard' } }, // 축 글씨색
+                                grid: { color: 'rgba(255,255,255,0.05)' } // 그리드 선 색상
+                            }
                         }
                     }
                 });
